@@ -9,6 +9,9 @@
 ###  1.1. <a name='Goals'></a>Goals
 
 
+
+111234
+
 1. 练习好听力
     - 听力 而不是 演奏机器！！ 
         > simply performing the guitar  equivalent of typing a dicted letter
