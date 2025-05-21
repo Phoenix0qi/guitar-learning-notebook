@@ -12,4 +12,5 @@
 
   * [GG-CreativeGuitar](./读书笔记/CreativeGuitar-GuthrieGovan/GG_CG.md)
 
-
+* [4.扒带记录](./扒带记录/)
+  * [曲目目录](./扒带记录/曲目目录.md)
