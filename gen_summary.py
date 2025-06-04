@@ -4,7 +4,7 @@ def generate_summary_md(root_dir='./输出', output_file='summarycp.md'):
     lines = []
 
     def find_first_md(path):
-        for file in os.listdir(path):
+        for file in sorted(os.listdir(path)):
             if file.lower().endswith('.md'):
                 return file
         return None
@@ -12,26 +12,26 @@ def generate_summary_md(root_dir='./输出', output_file='summarycp.md'):
     def walk_dir(current_dir, level=0):
         entries = sorted(os.listdir(current_dir))
         dirs = [d for d in entries if os.path.isdir(os.path.join(current_dir, d))]
-        files = [f for f in entries if f.endswith('.md')]
+        files = [f for f in entries if f.lower().endswith('.md')]
 
-        # 当前文件夹自己作为标题项（指向 README.md 或第一个 .md 文件）
         rel_path = os.path.relpath(current_dir, root_dir).replace("\\", "/")
         if rel_path == '.':
             rel_path = ''
-        title = os.path.basename(current_dir) if rel_path else os.path.basename(os.path.abspath(current_dir))
-        target = find_first_md(current_dir) or ''
-        link_path = os.path.join(rel_path, target).replace("\\", "/") if target else rel_path + '/'
-        indent = '\t' * level
-        lines.append(f"{indent}* [{title}]({link_path})\n")
 
+        indent = '\t' * level
+
+        # 当前目录同级列出所有 md 文件
         for f in files:
-            if f == target:  # 避免重复记录 README.md
-                continue
             file_rel_path = os.path.join(rel_path, f).replace("\\", "/")
             name = os.path.splitext(f)[0]
-            lines.append(f"{indent}\t* [{name}]({file_rel_path})\n")
+            lines.append(f"{indent}* [{name}]({file_rel_path})\n")
 
+        # 目录和 md 文件同一级别，目录链接写成目录路径，目录内部文件缩进一级
         for d in dirs:
+            dir_rel_path = os.path.join(rel_path, d).replace("\\", "/")
+            # 目录作为条目，链接是目录路径，末尾加 '/'
+            lines.append(f"{indent}* [{d}]({dir_rel_path}/)\n")
+            # 目录内文件缩进一级
             walk_dir(os.path.join(current_dir, d), level + 1)
 
     walk_dir(root_dir)
