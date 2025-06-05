@@ -1,2 +1,0 @@
-## Guitarpro8
-

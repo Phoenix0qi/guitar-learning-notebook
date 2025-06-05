@@ -2,16 +2,11 @@ import os
 
 def generate_summary_md(root_dir='./输出', output_file='summarycp.md'):
     lines = []
-
-    def find_first_md(path):
-        for file in sorted(os.listdir(path)):
-            if file.lower().endswith('.md'):
-                return file
-        return None
+    exclude_dirs = {'.git', '__pycache__', '.DS_Store', '.idea', '.vscode'}  # 可扩展
 
     def walk_dir(current_dir, level=0):
         entries = sorted(os.listdir(current_dir))
-        dirs = [d for d in entries if os.path.isdir(os.path.join(current_dir, d))]
+        dirs = [d for d in entries if os.path.isdir(os.path.join(current_dir, d)) and d not in exclude_dirs]
         files = [f for f in entries if f.lower().endswith('.md')]
 
         rel_path = os.path.relpath(current_dir, root_dir).replace("\\", "/")
@@ -20,18 +15,16 @@ def generate_summary_md(root_dir='./输出', output_file='summarycp.md'):
 
         indent = '\t' * level
 
-        # 当前目录同级列出所有 md 文件
+        # 当前目录下的 md 文件
         for f in files:
             file_rel_path = os.path.join(rel_path, f).replace("\\", "/")
             name = os.path.splitext(f)[0]
             lines.append(f"{indent}* [{name}]({file_rel_path})\n")
 
-        # 目录和 md 文件同一级别，目录链接写成目录路径，目录内部文件缩进一级
+        # 子目录
         for d in dirs:
             dir_rel_path = os.path.join(rel_path, d).replace("\\", "/")
-            # 目录作为条目，链接是目录路径，末尾加 '/'
             lines.append(f"{indent}* [{d}]({dir_rel_path}/)\n")
-            # 目录内文件缩进一级
             walk_dir(os.path.join(current_dir, d), level + 1)
 
     walk_dir(root_dir)
