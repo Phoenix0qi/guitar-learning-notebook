@@ -1,9 +1,9 @@
 
 
-# [地狱级他第一册](https://chongqi00.gitbook.io/guitar/3.-du-shu-bi-ji/di-yu-ji-ta-1)
+# [地狱级他第一册](./地狱吉他第一册/目录.md)
 
 
-# [Creativate Guitar](https://chongqi00.gitbook.io/guitar/3.-du-shu-bi-ji/gg_cg)
+# [Creativate Guitar](./CreativeGuitar-GuthrieGovan/GG_CG.md)
 
 
 # 
